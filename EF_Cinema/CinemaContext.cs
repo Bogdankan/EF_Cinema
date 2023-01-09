@@ -12,6 +12,7 @@ namespace EF_Cinema
     {
         public CinemaContext(DbContextOptions<CinemaContext> options) : base(options)
         {
+            Database.EnsureDeleted();
             Database.EnsureCreated();
         }
 
@@ -25,6 +26,7 @@ namespace EF_Cinema
             modelBuilder.Entity<Hall>();
             modelBuilder.Entity<Session>();
             modelBuilder.Entity<Ticket>();
+            modelBuilder.Entity<FilmGenre>();
         }
     }
 }
