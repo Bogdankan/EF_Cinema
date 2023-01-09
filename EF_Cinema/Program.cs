@@ -25,14 +25,18 @@ using (CinemaContext db = new CinemaContext(options))
     CinemasNetwork cinemasNetwork1 = new CinemasNetwork { Name = "Multiplex" };
     CinemasNetwork cinemasNetwork2 = new CinemasNetwork { Name = "Liniya Kino" };
     CinemasNetwork cinemasNetwork3 = new CinemasNetwork { Name = "Outlet" };
-    Cinema cinema1 = new Cinema { Sity = "Kyiv", CinemasNetwork = cinemasNetwork1 };
-    Cinema cinema2 = new Cinema { Sity = "Lviv", CinemasNetwork = cinemasNetwork3 };
-    Cinema cinema3 = new Cinema { Sity = "Kharkiv", CinemasNetwork = cinemasNetwork2 };
-    Cinema cinema4 = new Cinema { Sity = "Odesa", CinemasNetwork = cinemasNetwork2 };
 
-    db.Cinemas.AddRange(cinema1, cinema2, cinema3, cinema4);  // добавление компаний
-    db.CinemasNetworks.AddRange(cinemasNetwork1, cinemasNetwork2, cinemasNetwork3);     // добавление пользователей
+    db.CinemasNetworks.AddRange(cinemasNetwork1, cinemasNetwork2, cinemasNetwork3);
     db.SaveChanges();
+
+    Cinema cinema1 = new Cinema { Sity = "Kyiv", CinemasNetworkId = cinemasNetwork1.Id };
+    Cinema cinema2 = new Cinema { Sity = "Lviv", CinemasNetworkId = cinemasNetwork3.Id };
+    Cinema cinema3 = new Cinema { Sity = "Kharkiv", CinemasNetworkId = cinemasNetwork2.Id };
+    Cinema cinema4 = new Cinema { Sity = "Odesa", CinemasNetworkId = cinemasNetwork2.Id };
+
+    db.Cinemas.AddRange(cinema1, cinema2, cinema3, cinema4);
+    db.SaveChanges();
+
 
     foreach (var cinema in db.Cinemas.ToList())
     {
