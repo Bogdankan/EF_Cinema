@@ -14,6 +14,8 @@ namespace EF_Cinema.Models
 
         public int CinemasNetworkId { get; set; }
 
+        public CinemasNetwork? CinemasNetwork { get; set; }
+
         public string? Sity { get; set; }
 
         public string? Street { get; set; }

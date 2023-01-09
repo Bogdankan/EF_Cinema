@@ -10,6 +10,9 @@ namespace EF_Cinema
 {
     public class CinemaContext : DbContext
     {
+        public DbSet<Cinema> Cinemas { get; set; } = null!;
+        public DbSet<CinemasNetwork> CinemasNetworks { get; set; } = null!;
+
         public CinemaContext(DbContextOptions<CinemaContext> options) : base(options)
         {
             Database.EnsureDeleted();
@@ -18,15 +21,15 @@ namespace EF_Cinema
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Cinema>();
-            modelBuilder.Entity<CinemasNetwork>(); 
-            modelBuilder.Entity<Country>();
-            modelBuilder.Entity<Film>();
-            modelBuilder.Entity<Genre>();
-            modelBuilder.Entity<Hall>();
-            modelBuilder.Entity<Session>();
-            modelBuilder.Entity<Ticket>();
-            modelBuilder.Entity<FilmGenre>();
+            //modelBuilder.Entity<Cinema>();
+            //modelBuilder.Entity<CinemasNetwork>(); 
+            //modelBuilder.Entity<Country>();
+            //modelBuilder.Entity<Film>();
+            //modelBuilder.Entity<Genre>();
+            //modelBuilder.Entity<Hall>();
+            //modelBuilder.Entity<Session>();
+            //modelBuilder.Entity<Ticket>();
+            //modelBuilder.Entity<FilmGenre>();
         }
     }
 }
