@@ -12,10 +12,10 @@ namespace EF_Cinema.Models
 
         public int CinemasNetworkId { get; set; }
 
-        public string Sity { get; set; }
+        public string? Sity { get; set; }
 
-        public string Street { get; set; }
+        public string? Street { get; set; }
 
-        public string House { get; set; }
+        public string? House { get; set; }
     }
 }
