@@ -17,3 +17,8 @@ string connectionString = config.GetConnectionString("DefaultConnection");
 
 var optionsBuilder = new DbContextOptionsBuilder<CinemaContext>();
 var options = optionsBuilder.UseSqlServer(connectionString).Options;
+
+using (CinemaContext db = new CinemaContext(options))
+{
+    Console.WriteLine("Database was created");
+}
