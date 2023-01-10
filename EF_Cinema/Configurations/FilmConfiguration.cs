@@ -25,6 +25,8 @@ namespace EF_Cinema.Configurations
                     j.ToTable("FilmGenre");
                 }
                 );
+
+            //builder.HasData(new Film { Name = "Star Wars", CountryId = 1, SessionId = 1, GenreId = 1, Duration = new DateTime(0, 0, 0, 2, 15, 56) });
         }
     }
 }

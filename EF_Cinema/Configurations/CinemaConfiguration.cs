@@ -18,6 +18,8 @@ namespace EF_Cinema.Configurations
             builder.Property(c => c.House).IsRequired().HasMaxLength(5);
             builder.HasOne(c => c.CinemasNetwork).WithMany(cn => cn.Cinemas).HasForeignKey(c => c.CinemasNetworkId);
             builder.HasMany(c => c.Halls).WithOne(h => h.Cinema).HasForeignKey(c => c.CinemaId);
+
+            //builder.HasData(new Cinema { CinemasNetworkId = 1, HallId = 1, Sity = "Kyiv", Street = "Berkovetska", House = "6D"});
         }
     }
 }

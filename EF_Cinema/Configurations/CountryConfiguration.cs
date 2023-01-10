@@ -16,6 +16,8 @@ namespace EF_Cinema.Configurations
             builder.HasAlternateKey(c => c.Name);
             builder.Property(c => c.Name).HasMaxLength(50);
             builder.HasMany(c => c.Films).WithOne(f => f.Country).HasForeignKey(c => c.CountryId);
+
+            //builder.HasData(new Country { Name = "USA"});
         }
     }
 }

@@ -17,6 +17,8 @@ namespace EF_Cinema.Configurations
             builder.HasOne(h => h.Info).WithOne(i => i.Hall).HasForeignKey<HallInfo>(i => i.HallId);
             builder.HasOne(h => h.Cinema).WithMany(c => c.Halls).HasForeignKey(h => h.CinemaId);
             builder.HasMany(h => h.Sessions).WithOne(s => s.Hall).HasForeignKey(h=> h.HallId);
-        }        
+
+           // builder.HasData(new Hall { CinemaId = 1 });
+        }       
     }
 }

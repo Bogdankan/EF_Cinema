@@ -25,6 +25,8 @@ namespace EF_Cinema.Configurations
                    j.ToTable("FilmGenre");
                }
                );
+
+            builder.HasData(new Genre {Id = 1, Name = "Fantasy"});
         }
     }
 }

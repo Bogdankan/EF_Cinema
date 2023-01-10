@@ -15,6 +15,8 @@ namespace EF_Cinema.Configurations
         {
             builder.Property(cn => cn.Name).IsRequired().HasMaxLength(50);
             builder.HasMany(cn => cn.Cinemas).WithOne(c => c.CinemasNetwork).HasForeignKey(cn => cn.CinemasNetworkId);
+
+            //builder.HasData(new CinemasNetwork { Name = "Multiplex", CinemaId = 1});
         }
     }
 }
