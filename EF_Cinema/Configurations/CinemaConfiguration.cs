@@ -16,6 +16,8 @@ namespace EF_Cinema.Configurations
             builder.Property(c => c.Sity).IsRequired().HasMaxLength(50);
             builder.Property(c => c.Street).IsRequired().HasMaxLength(50);
             builder.Property(c => c.House).IsRequired().HasMaxLength(5);
+            builder.HasOne(c => c.CinemasNetwork).WithMany(cn => cn.Cinemas).HasForeignKey(c => c.CinemasNetworkId);
+            builder.HasMany(c => c.Halls).WithOne(h => h.Cinema).HasForeignKey(c => c.CinemaId);
         }
     }
 }

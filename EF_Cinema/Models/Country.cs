@@ -12,5 +12,7 @@ namespace EF_Cinema.Models
         [Key]
         public int Id { get; set; }
         public string? Name { get; set; }
+        public int? FilmId { get; set; }
+        public List<Film> Films { get; set; }
     }
 }

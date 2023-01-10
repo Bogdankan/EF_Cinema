@@ -9,15 +9,11 @@ namespace EF_Cinema.Models
     public class Ticket
     {
         public int Id { get; set; }
-
         public int HallNumber { get; set; }
-
         public int PlaceNumber { get; set; }
-
         public int RowNumber { get; set; }
-
         public int SessionId { get; set; }
-
+        public Session Session { get; set; }
         public int Price { get; set; }
     }
 }

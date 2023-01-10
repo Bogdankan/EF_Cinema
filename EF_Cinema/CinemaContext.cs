@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -30,6 +31,7 @@ namespace EF_Cinema
             //modelBuilder.Entity<Session>();
             //modelBuilder.Entity<Ticket>();
             //modelBuilder.Entity<FilmGenre>();
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
     }
 }

@@ -9,11 +9,10 @@ namespace EF_Cinema.Models
     public class Hall
     {
         public int Id { get; set; }
-
         public int CinemaId { get; set; }
-
-        public int PlacesCount { get; set; }
-
-        public int RowsCount { get; set; }
+        public Cinema Cinema { get; set; }
+        public int? SessionId { get; set; }
+        public List<Session> Sessions { get; set; }
+        public HallInfo? Info { get; set; }
     }
 }

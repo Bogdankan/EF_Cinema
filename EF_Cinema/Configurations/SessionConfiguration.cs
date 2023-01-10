@@ -14,6 +14,9 @@ namespace EF_Cinema.Configurations
         public void Configure(EntityTypeBuilder<Session> builder)
         {
             builder.Property(s => s.DateTime).HasDefaultValue(DateTime.Now);
+            builder.HasOne(s => s.Film).WithMany(f => f.Sessions).HasForeignKey(s => s.FilmId);
+            builder.HasMany(s => s.Tickets).WithOne(t => t.Session).HasForeignKey(s => s.SessionId);
+            builder.HasOne(s => s.Hall).WithMany(h => h.Sessions).HasForeignKey(s => s.HallId);
         }
     }
 }

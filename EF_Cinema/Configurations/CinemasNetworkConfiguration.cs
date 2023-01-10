@@ -14,6 +14,7 @@ namespace EF_Cinema.Configurations
         public void Configure(EntityTypeBuilder<CinemasNetwork> builder)
         {
             builder.Property(cn => cn.Name).IsRequired().HasMaxLength(50);
+            builder.HasMany(cn => cn.Cinemas).WithOne(c => c.CinemasNetwork).HasForeignKey(cn => cn.CinemasNetworkId);
         }
     }
 }
