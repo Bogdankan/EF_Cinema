@@ -1,6 +1,7 @@
 ﻿using EF_Cinema;
 using EF_Cinema.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
 using Microsoft.Extensions.Configuration;
 using System.ComponentModel.DataAnnotations;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
@@ -76,31 +77,90 @@ using (CinemaContext db = new CinemaContext(options))
 
     //TPT
 
-    Film film1 = new Film { Name = "Star Wars", Duration = DateTime.Now, CountryId = 1 };
-    Film film2 = new Film { Name = "Pulp Fiction", Duration = DateTime.Now, CountryId = 1 };
+    //Film film1 = new Film { Name = "Star Wars", Duration = DateTime.Now, CountryId = 1 };
+    //Film film2 = new Film { Name = "Pulp Fiction", Duration = DateTime.Now, CountryId = 1 };
+
+    //db.Films.Add(film1);
+    //db.Films.Add(film2);
+
+    //Series series1 = new Series { Name = "Breaking Bad", Duration = DateTime.Now, EpisodeCount = 62, SeasonsCount = 5, CountryId = 1 };
+    //Series series2 = new Series { Name = "Prison Break", Duration = DateTime.Now, EpisodeCount = 90, SeasonsCount = 5, CountryId = 1 };
+
+    //db.Films.Add(series1);
+    //db.Films.Add(series2);
+
+    //db.SaveChanges();
+
+    //var films = db.Films.ToList();
+    //Console.WriteLine("All films:");
+    //foreach (var film in films)
+    //{
+    //    Console.WriteLine(film.Name);
+    //}
+
+    //var series = db.Series.ToList();
+    //Console.WriteLine("All series:");
+    //foreach (var serie in series)
+    //{
+    //    Console.WriteLine(serie.Name);
+    //}
+}
+
+
+//Create
+using (CinemaContext db = new CinemaContext(options))
+{
+    var film1 = new Film { Name = "Star Wars", Duration = DateTime.Now, CountryId = 1 };
+    var film2 = new Film { Name = "Pulp Fiction", Duration = DateTime.Now, CountryId = 1 };
 
     db.Films.Add(film1);
     db.Films.Add(film2);
-
-    Series series1 = new Series { Name = "Breaking Bad", Duration = DateTime.Now, EpisodeCount = 62, SeasonsCount = 5, CountryId = 1 };
-    Series series2 = new Series { Name = "Prison Break", Duration = DateTime.Now, EpisodeCount = 90, SeasonsCount = 5, CountryId = 1 };
-
-    db.Films.Add(series1);
-    db.Films.Add(series2);
-
     db.SaveChanges();
 
     var films = db.Films.ToList();
-    Console.WriteLine("All films:");
+
+    Console.WriteLine("Added films:");
     foreach (var film in films)
     {
         Console.WriteLine(film.Name);
     }
+}
 
-    var series = db.Series.ToList();
-    Console.WriteLine("All series:");
-    foreach (var serie in series)
+//Alter
+using (CinemaContext db = new CinemaContext(options))
+{
+    var film = db.Films.FirstOrDefault(x => x.Name == "Pulp Fiction");
+
+    Console.WriteLine($"Old duration: {film.Duration}");
+
+    film.Duration = DateTime.MaxValue;
+    db.SaveChanges();
+
+    var films = db.Films.ToList();
+
+    Console.WriteLine("Films after altering:");
+    foreach (var f in films)
     {
-        Console.WriteLine(serie.Name);
+        Console.WriteLine($"{f.Name} ||| {f.Duration}");
+    }
+}
+
+//Delete
+using (CinemaContext db = new CinemaContext(options))
+{
+    var film = db.Films.FirstOrDefault();
+
+    if (film != null)
+    {
+        db.Films.Remove(film);
+        db.SaveChanges();
+    }
+
+    var films = db.Films.ToList();
+
+    Console.WriteLine("Films after deleting:");
+    foreach (var f in films)
+    {
+        Console.WriteLine($"{f.Name}");
     }
 }
