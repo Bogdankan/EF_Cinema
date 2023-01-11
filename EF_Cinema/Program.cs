@@ -46,14 +46,44 @@ using (CinemaContext db = new CinemaContext(options))
 
     //TPH
 
+    //Film film1 = new Film { Name = "Star Wars", Duration = DateTime.Now, CountryId = 1 };
+    //Film film2 = new Film { Name = "Pulp Fiction", Duration =DateTime.Now, CountryId = 1 };
+
+    //db.Films.Add(film1);
+    //db.Films.Add(film2);
+
+    //Series series1 = new Series { Name = "Breaking Bad", Duration = DateTime.Now, EpisodeCount = 62, SeasonsCount = 5, CountryId = 1 };
+    //Series series2 = new Series { Name = "Prison Break", Duration =DateTime.Now, EpisodeCount = 90, SeasonsCount = 5, CountryId = 1 };
+
+    //db.Films.Add(series1);
+    //db.Films.Add(series2);
+
+    //db.SaveChanges();
+
+    //var films = db.Films.ToList();
+    //Console.WriteLine("All films:");
+    //foreach (var film in films)
+    //{
+    //    Console.WriteLine(film.Name);
+    //}
+
+    //var series = db.Series.ToList();
+    //Console.WriteLine("All series:");
+    //foreach (var serie in series)
+    //{
+    //    Console.WriteLine(serie.Name);
+    //}
+
+    //TPT
+
     Film film1 = new Film { Name = "Star Wars", Duration = DateTime.Now, CountryId = 1 };
-    Film film2 = new Film { Name = "Pulp Fiction", Duration =DateTime.Now, CountryId = 1 };
+    Film film2 = new Film { Name = "Pulp Fiction", Duration = DateTime.Now, CountryId = 1 };
 
     db.Films.Add(film1);
     db.Films.Add(film2);
 
     Series series1 = new Series { Name = "Breaking Bad", Duration = DateTime.Now, EpisodeCount = 62, SeasonsCount = 5, CountryId = 1 };
-    Series series2 = new Series { Name = "Prison Break", Duration =DateTime.Now, EpisodeCount = 90, SeasonsCount = 5, CountryId = 1 };
+    Series series2 = new Series { Name = "Prison Break", Duration = DateTime.Now, EpisodeCount = 90, SeasonsCount = 5, CountryId = 1 };
 
     db.Films.Add(series1);
     db.Films.Add(series2);
