@@ -11,13 +11,14 @@ namespace EF_Cinema
 {
     public class CinemaContext : DbContext
     {
-        public DbSet<Cinema> Cinemas { get; set; } = null!;
-        public DbSet<CinemasNetwork> CinemasNetworks { get; set; } = null!;
+        public DbSet<Film> Films { get; set; } = null!;
+        public DbSet<Series> Series { get; set; } = null!;
+
 
         public CinemaContext(DbContextOptions<CinemaContext> options) : base(options)
         {
-            Database.EnsureDeleted();
-            Database.EnsureCreated();
+            //Database.EnsureDeleted();
+            //Database.EnsureCreated();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
