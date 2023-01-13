@@ -13,6 +13,6 @@ namespace EF_Cinema.Models
         public Cinema Cinema { get; set; }
         public int? SessionId { get; set; }
         public List<Session> Sessions { get; set; }
-        public HallInfo? Info { get; set; }
+        public HallInfo? Info { get; set; } 
     }
 }

@@ -108,59 +108,117 @@ using (CinemaContext db = new CinemaContext(options))
 
 
 //Create
+//using (CinemaContext db = new CinemaContext(options))
+//{
+//    var film1 = new Film { Name = "Star Wars", Duration = DateTime.Now, CountryId = 1 };
+//    var film2 = new Film { Name = "Pulp Fiction", Duration = DateTime.Now, CountryId = 1 };
+
+//    db.Films.Add(film1);
+//    db.Films.Add(film2);
+//    db.SaveChanges();
+
+//    var films = db.Films.ToList();
+
+//    Console.WriteLine("Added films:");
+//    foreach (var film in films)
+//    {
+//        Console.WriteLine(film.Name);
+//    }
+//}
+
+////Alter
+//using (CinemaContext db = new CinemaContext(options))
+//{
+//    var film = db.Films.FirstOrDefault(x => x.Name == "Pulp Fiction");
+
+//    Console.WriteLine($"Old duration: {film.Duration}");
+
+//    film.Duration = DateTime.MaxValue;
+//    db.SaveChanges();
+
+//    var films = db.Films.ToList();
+
+//    Console.WriteLine("Films after altering:");
+//    foreach (var f in films)
+//    {
+//        Console.WriteLine($"{f.Name} ||| {f.Duration}");
+//    }
+//}
+
+////Delete
+//using (CinemaContext db = new CinemaContext(options))
+//{
+//    var film = db.Films.FirstOrDefault();
+
+//    if (film != null)
+//    {
+//        db.Films.Remove(film);
+//        db.SaveChanges();
+//    }
+
+//    var films = db.Films.ToList();
+
+//    Console.WriteLine("Films after deleting:");
+//    foreach (var f in films)
+//    {
+//        Console.WriteLine($"{f.Name}");
+//    }
+//}
+
+
+//LINQ to entities
 using (CinemaContext db = new CinemaContext(options))
 {
-    var film1 = new Film { Name = "Star Wars", Duration = DateTime.Now, CountryId = 1 };
-    var film2 = new Film { Name = "Pulp Fiction", Duration = DateTime.Now, CountryId = 1 };
+    //Initialization
+    //CinemasNetwork cinemasNetwork1 = new CinemasNetwork { Name = "Multiplex"};
+    //CinemasNetwork cinemasNetwork2 = new CinemasNetwork { Name = "Linia Kino" };
+    //CinemasNetwork cinemasNetwork3 = new CinemasNetwork { Name = "Outlet" };
 
-    db.Films.Add(film1);
-    db.Films.Add(film2);
-    db.SaveChanges();
+    //db.CinemasNetworks.AddRange(cinemasNetwork1, cinemasNetwork2, cinemasNetwork3);
 
-    var films = db.Films.ToList();
+    //Cinema cinema1 = new Cinema { CinemasNetwork = cinemasNetwork1, Sity = "Kyiv" };
+    //Cinema cinema2 = new Cinema { CinemasNetwork = cinemasNetwork3, Sity = "Dnipro" };
+    //Cinema cinema3 = new Cinema { CinemasNetwork = cinemasNetwork2, Sity = "Kharkiv" };
+    //Cinema cinema4 = new Cinema { CinemasNetwork = cinemasNetwork2, Sity = "Kharkiv" };
+    //Cinema cinema5 = new Cinema { CinemasNetwork = cinemasNetwork1, Sity = "Odesa" };
+    //Cinema cinema6 = new Cinema { CinemasNetwork = cinemasNetwork1, Sity = "Kyiv" };
 
-    Console.WriteLine("Added films:");
-    foreach (var film in films)
-    {
-        Console.WriteLine(film.Name);
-    }
-}
+    //db.Cinemas.AddRange(cinema1, cinema2, cinema3, cinema4, cinema5, cinema6);
 
-//Alter
-using (CinemaContext db = new CinemaContext(options))
-{
-    var film = db.Films.FirstOrDefault(x => x.Name == "Pulp Fiction");
+    //Hall hall1 = new Hall { Cinema = cinema2 };
+    //Hall hall2 = new Hall { Cinema = cinema4 };
+    //Hall hall3 = new Hall { Cinema = cinema1 };
+    //Hall hall4 = new Hall { Cinema = cinema3 };
+    //Hall hall5 = new Hall { Cinema = cinema6 };
+    //Hall hall6 = new Hall { Cinema = cinema1 };
 
-    Console.WriteLine($"Old duration: {film.Duration}");
+    //db.Halls.AddRange(hall1, hall2, hall3, hall4, hall5, hall6);
 
-    film.Duration = DateTime.MaxValue;
-    db.SaveChanges();
+    //db.Cinemas.AddRange(cinema1, cinema2, cinema3, cinema4, cinema5, cinema6);
 
-    var films = db.Films.ToList();
+    //Film film1 = new Film { Name = "Fight club", CountryId = 1, GenreId = 1 };
+    //Film film2 = new Film { Name = "Interstellar", CountryId = 1, GenreId = 1 };
+    //Film film3 = new Film { Name = "Shawshank redemption", CountryId = 1, GenreId = 1 };
 
-    Console.WriteLine("Films after altering:");
-    foreach (var f in films)
-    {
-        Console.WriteLine($"{f.Name} ||| {f.Duration}");
-    }
-}
+    //db.Films.AddRange(film1, film2, film3);
 
-//Delete
-using (CinemaContext db = new CinemaContext(options))
-{
-    var film = db.Films.FirstOrDefault();
+    //Union
 
-    if (film != null)
-    {
-        db.Films.Remove(film);
-        db.SaveChanges();
-    }
 
-    var films = db.Films.ToList();
+    //Intersect
 
-    Console.WriteLine("Films after deleting:");
-    foreach (var f in films)
-    {
-        Console.WriteLine($"{f.Name}");
-    }
+
+    //Except
+
+
+    //Join
+
+
+    //Distinct
+
+
+    //Group by
+
+
+
 }
