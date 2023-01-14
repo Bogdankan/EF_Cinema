@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace EFCinema.Migrations
 {
     /// <inheritdoc />
-    public partial class TPH : Migration
+    public partial class Lab4 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -20,24 +20,20 @@ namespace EFCinema.Migrations
                 table: "Film");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_FilmGenre_Film_FilmId",
-                table: "FilmGenre");
-
-            migrationBuilder.DropForeignKey(
                 name: "FK_Hall_Cinemas_CinemaId",
                 table: "Hall");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Session_Film_FilmId",
-                table: "Session");
 
             migrationBuilder.DropUniqueConstraint(
                 name: "AK_Country_FilmId",
                 table: "Country");
 
+            migrationBuilder.DropUniqueConstraint(
+                name: "AK_Country_Name",
+                table: "Country");
+
             migrationBuilder.DropPrimaryKey(
-                name: "PK_Film",
-                table: "Film");
+                name: "PK_Country",
+                table: "Country");
 
             migrationBuilder.DropPrimaryKey(
                 name: "PK_CinemasNetworks",
@@ -48,8 +44,8 @@ namespace EFCinema.Migrations
                 table: "Cinemas");
 
             migrationBuilder.RenameTable(
-                name: "Film",
-                newName: "Films");
+                name: "Country",
+                newName: "Countrie");
 
             migrationBuilder.RenameTable(
                 name: "CinemasNetworks",
@@ -58,11 +54,6 @@ namespace EFCinema.Migrations
             migrationBuilder.RenameTable(
                 name: "Cinemas",
                 newName: "Cinema");
-
-            migrationBuilder.RenameIndex(
-                name: "IX_Film_CountryId",
-                table: "Films",
-                newName: "IX_Films_CountryId");
 
             migrationBuilder.RenameIndex(
                 name: "IX_Cinemas_CinemasNetworkId",
@@ -74,41 +65,27 @@ namespace EFCinema.Migrations
                 table: "Session",
                 type: "datetime2",
                 nullable: false,
-                defaultValue: new DateTime(2023, 1, 11, 3, 17, 6, 434, DateTimeKind.Local).AddTicks(9873),
+                defaultValue: new DateTime(2023, 1, 14, 14, 17, 19, 706, DateTimeKind.Local).AddTicks(1262),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime2",
-                oldDefaultValue: new DateTime(2023, 1, 10, 23, 24, 51, 635, DateTimeKind.Local).AddTicks(3782));
+                oldDefaultValue: new DateTime(2023, 1, 10, 22, 59, 46, 86, DateTimeKind.Local).AddTicks(2338));
 
             migrationBuilder.AlterColumn<int>(
                 name: "FilmId",
-                table: "Country",
+                table: "Countrie",
                 type: "int",
                 nullable: true,
                 oldClrType: typeof(int),
                 oldType: "int");
 
-            migrationBuilder.AddColumn<string>(
-                name: "Discriminator",
-                table: "Films",
-                type: "nvarchar(max)",
-                nullable: false,
-                defaultValue: "");
-
-            migrationBuilder.AddColumn<int>(
-                name: "EpisodeCount",
-                table: "Films",
-                type: "int",
-                nullable: true);
-
-            migrationBuilder.AddColumn<int>(
-                name: "SeasonsCount",
-                table: "Films",
-                type: "int",
-                nullable: true);
+            migrationBuilder.AddUniqueConstraint(
+                name: "AK_Countrie_Name",
+                table: "Countrie",
+                column: "Name");
 
             migrationBuilder.AddPrimaryKey(
-                name: "PK_Films",
-                table: "Films",
+                name: "PK_Countrie",
+                table: "Countrie",
                 column: "Id");
 
             migrationBuilder.AddPrimaryKey(
@@ -121,10 +98,34 @@ namespace EFCinema.Migrations
                 table: "Cinema",
                 column: "cinema_id");
 
+            migrationBuilder.CreateTable(
+                name: "Series",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    EpisodeCount = table.Column<int>(type: "int", nullable: false),
+                    SeasonsCount = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Series", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Series_Film_Id",
+                        column: x => x.Id,
+                        principalTable: "Film",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
-                table: "Country",
+                table: "Countrie",
                 columns: new[] { "Id", "FilmId", "Name" },
                 values: new object[] { 1, null, "USA" });
+
+            migrationBuilder.InsertData(
+                table: "Genre",
+                columns: new[] { "Id", "FilmId", "Name" },
+                values: new object[] { 1, null, "Fantasy" });
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Cinema_CinemasNetwork_CinemasNetworkId",
@@ -135,18 +136,10 @@ namespace EFCinema.Migrations
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_FilmGenre_Films_FilmId",
-                table: "FilmGenre",
-                column: "FilmId",
-                principalTable: "Films",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Films_Country_CountryId",
-                table: "Films",
+                name: "FK_Film_Countrie_CountryId",
+                table: "Film",
                 column: "CountryId",
-                principalTable: "Country",
+                principalTable: "Countrie",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
 
@@ -156,14 +149,6 @@ namespace EFCinema.Migrations
                 column: "CinemaId",
                 principalTable: "Cinema",
                 principalColumn: "cinema_id",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Session_Films_FilmId",
-                table: "Session",
-                column: "FilmId",
-                principalTable: "Films",
-                principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
         }
 
@@ -175,24 +160,23 @@ namespace EFCinema.Migrations
                 table: "Cinema");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_FilmGenre_Films_FilmId",
-                table: "FilmGenre");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Films_Country_CountryId",
-                table: "Films");
+                name: "FK_Film_Countrie_CountryId",
+                table: "Film");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_Hall_Cinema_CinemaId",
                 table: "Hall");
 
-            migrationBuilder.DropForeignKey(
-                name: "FK_Session_Films_FilmId",
-                table: "Session");
+            migrationBuilder.DropTable(
+                name: "Series");
+
+            migrationBuilder.DropUniqueConstraint(
+                name: "AK_Countrie_Name",
+                table: "Countrie");
 
             migrationBuilder.DropPrimaryKey(
-                name: "PK_Films",
-                table: "Films");
+                name: "PK_Countrie",
+                table: "Countrie");
 
             migrationBuilder.DropPrimaryKey(
                 name: "PK_CinemasNetwork",
@@ -203,25 +187,18 @@ namespace EFCinema.Migrations
                 table: "Cinema");
 
             migrationBuilder.DeleteData(
-                table: "Country",
+                table: "Countrie",
                 keyColumn: "Id",
                 keyValue: 1);
 
-            migrationBuilder.DropColumn(
-                name: "Discriminator",
-                table: "Films");
-
-            migrationBuilder.DropColumn(
-                name: "EpisodeCount",
-                table: "Films");
-
-            migrationBuilder.DropColumn(
-                name: "SeasonsCount",
-                table: "Films");
+            migrationBuilder.DeleteData(
+                table: "Genre",
+                keyColumn: "Id",
+                keyValue: 1);
 
             migrationBuilder.RenameTable(
-                name: "Films",
-                newName: "Film");
+                name: "Countrie",
+                newName: "Country");
 
             migrationBuilder.RenameTable(
                 name: "CinemasNetwork",
@@ -230,11 +207,6 @@ namespace EFCinema.Migrations
             migrationBuilder.RenameTable(
                 name: "Cinema",
                 newName: "Cinemas");
-
-            migrationBuilder.RenameIndex(
-                name: "IX_Films_CountryId",
-                table: "Film",
-                newName: "IX_Film_CountryId");
 
             migrationBuilder.RenameIndex(
                 name: "IX_Cinema_CinemasNetworkId",
@@ -246,10 +218,10 @@ namespace EFCinema.Migrations
                 table: "Session",
                 type: "datetime2",
                 nullable: false,
-                defaultValue: new DateTime(2023, 1, 10, 23, 24, 51, 635, DateTimeKind.Local).AddTicks(3782),
+                defaultValue: new DateTime(2023, 1, 10, 22, 59, 46, 86, DateTimeKind.Local).AddTicks(2338),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime2",
-                oldDefaultValue: new DateTime(2023, 1, 11, 3, 17, 6, 434, DateTimeKind.Local).AddTicks(9873));
+                oldDefaultValue: new DateTime(2023, 1, 14, 14, 17, 19, 706, DateTimeKind.Local).AddTicks(1262));
 
             migrationBuilder.AlterColumn<int>(
                 name: "FilmId",
@@ -266,9 +238,14 @@ namespace EFCinema.Migrations
                 table: "Country",
                 column: "FilmId");
 
+            migrationBuilder.AddUniqueConstraint(
+                name: "AK_Country_Name",
+                table: "Country",
+                column: "Name");
+
             migrationBuilder.AddPrimaryKey(
-                name: "PK_Film",
-                table: "Film",
+                name: "PK_Country",
+                table: "Country",
                 column: "Id");
 
             migrationBuilder.AddPrimaryKey(
@@ -298,27 +275,11 @@ namespace EFCinema.Migrations
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_FilmGenre_Film_FilmId",
-                table: "FilmGenre",
-                column: "FilmId",
-                principalTable: "Film",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
                 name: "FK_Hall_Cinemas_CinemaId",
                 table: "Hall",
                 column: "CinemaId",
                 principalTable: "Cinemas",
                 principalColumn: "cinema_id",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Session_Film_FilmId",
-                table: "Session",
-                column: "FilmId",
-                principalTable: "Film",
-                principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
         }
     }

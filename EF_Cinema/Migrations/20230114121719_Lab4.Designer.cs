@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFCinema.Migrations
 {
     [DbContext(typeof(CinemaContext))]
-    [Migration("20230111011706_TPH")]
-    partial class TPH
+    [Migration("20230114121719_Lab4")]
+    partial class Lab4
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -104,7 +104,7 @@ namespace EFCinema.Migrations
 
                     b.HasAlternateKey("Name");
 
-                    b.ToTable("Country");
+                    b.ToTable("Countrie");
 
                     b.HasData(
                         new
@@ -125,10 +125,6 @@ namespace EFCinema.Migrations
                     b.Property<int>("CountryId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("Duration")
                         .HasColumnType("datetime2");
 
@@ -147,11 +143,9 @@ namespace EFCinema.Migrations
 
                     b.HasIndex("CountryId");
 
-                    b.ToTable("Films");
+                    b.ToTable("Film");
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Film");
-
-                    b.UseTphMappingStrategy();
+                    b.UseTptMappingStrategy();
                 });
 
             modelBuilder.Entity("EF_Cinema.Models.FilmGenre", b =>
@@ -260,7 +254,7 @@ namespace EFCinema.Migrations
                     b.Property<DateTime>("DateTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 1, 11, 3, 17, 6, 434, DateTimeKind.Local).AddTicks(9873));
+                        .HasDefaultValue(new DateTime(2023, 1, 14, 14, 17, 19, 706, DateTimeKind.Local).AddTicks(1262));
 
                     b.Property<int>("FilmId")
                         .HasColumnType("int");
@@ -324,7 +318,7 @@ namespace EFCinema.Migrations
                     b.Property<int>("SeasonsCount")
                         .HasColumnType("int");
 
-                    b.HasDiscriminator().HasValue("Series");
+                    b.ToTable("Series");
                 });
 
             modelBuilder.Entity("EF_Cinema.Models.Cinema", b =>
@@ -418,6 +412,15 @@ namespace EFCinema.Migrations
                         .IsRequired();
 
                     b.Navigation("Session");
+                });
+
+            modelBuilder.Entity("EF_Cinema.Models.Series", b =>
+                {
+                    b.HasOne("EF_Cinema.Models.Film", null)
+                        .WithOne()
+                        .HasForeignKey("EF_Cinema.Models.Series", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("EF_Cinema.Models.Cinema", b =>

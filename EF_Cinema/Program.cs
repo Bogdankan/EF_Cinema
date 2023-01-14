@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
 using Microsoft.Extensions.Configuration;
 using System.ComponentModel.DataAnnotations;
+using System.Numerics;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 
@@ -112,11 +113,11 @@ var options = optionsBuilder.UseSqlServer(connectionString).Options;
 //    var film1 = new Film { Name = "Star Wars", Duration = DateTime.Now, CountryId = 1 };
 //    var film2 = new Film { Name = "Pulp Fiction", Duration = DateTime.Now, CountryId = 1 };
 
-//    db.Films.Add(film1);
-//    db.Films.Add(film2);
+//    db.Film.Add(film1);
+//    db.Film.Add(film2);
 //    db.SaveChanges();
 
-//    var films = db.Films.ToList();
+//    var films = db.Film.ToList();
 
 //    Console.WriteLine("Added films:");
 //    foreach (var film in films)
@@ -164,29 +165,90 @@ var options = optionsBuilder.UseSqlServer(connectionString).Options;
 //    }
 //}
 
-//4 Lab
-//Thread
+
 #endregion
 
+//4 Lab
+//Thread
 object locker = new();
 
 using (CinemaContext db = new CinemaContext(options))
 {
-    //for (int i = 0; i < 5; i++)
-    //{
-    //    Thread myThread = new Thread(() => AddCinema(db, i));
-    //    myThread.Name = $"Поток {i}";
-    //    myThread.Start();
-    //}
-    
+    for (int i = 0; i < 5; i++)
+    {
+        //var film = new Film { Name = ("Film" + i.ToString()), Duration = DateTime.Now, CountryId = 1 };
+        //Thread myThread = new Thread(() => AddFilm(film));
+        //myThread.Name = $"Поток {i}";
+
+        //myThread.Start();
+
+        Thread myThread = new Thread(() => FindFilm("Film" + i.ToString()));
+        myThread.Name = $"Поток {i}";
+
+        myThread.Start();
+    }   
 }
 
-async void AddCinema(CinemaContext db, int i)
+//Task
+using (CinemaContext db = new CinemaContext(options))
+{
+    for (int i = 0; i < 5; i++)
+    {
+        //var film = new Film { Name = ("Film" + i.ToString()), Duration = DateTime.Now, CountryId = 1 };
+        //Task task = new Task(() => AddFilm(film));
+
+        //task.Start();
+
+        Task task = new Task(() => FindFilm("Film" + i.ToString()));
+
+        task.Start();
+    }
+}
+//Adding
+void AddFilm(Film f)
+{
+    Console.WriteLine(Thread.CurrentThread.Name);
+    using (CinemaContext db = new CinemaContext(options))
+    {
+        lock (locker)
+        {
+            db.Film.Add(f);
+        }       
+        db.SaveChangesAsync();
+    }      
+}
+//Reading
+void FindFilm(string name)
 {
     lock (locker)
     {
-        Cinema cinema = new Cinema { Id = i + 10, CinemasNetworkId = 1, Sity = ("City" + i.ToString()), Street = ("Street" + i.ToString()), House = ("House11" + i.ToString()) };
-        db.SaveChangesAsync();
-        
-    }        
+        using (CinemaContext db = new CinemaContext(options))
+        {
+            var film = db.Film.FirstOrDefaultAsync(f => f.Name == name).Result;
+            if (film != null)
+            Console.WriteLine($"{film.Id} || {film.Name} || {film.Duration}");
+        }
+    }
 }
+
+//Adding
+//async Task SaveObjectsAsync(Film f)
+//{
+//    using (CinemaContext db = new CinemaContext(options))
+//    {
+//        db.Film.Add(f);
+//        await db.SaveChangesAsync();
+//    }
+//}
+
+////Reading
+//async Task GetObjectsAsync()
+//{
+//    using (CinemaContext db = new CinemaContext(options))
+//    {
+//        await db.Film.ForEachAsync(f =>
+//        {
+//            Console.WriteLine($"{f.Id} || {f.Name} || {f.Duration}");
+//        });
+//    }
+//}

@@ -101,7 +101,7 @@ namespace EFCinema.Migrations
 
                     b.HasAlternateKey("Name");
 
-                    b.ToTable("Country");
+                    b.ToTable("Countrie");
 
                     b.HasData(
                         new
@@ -140,7 +140,7 @@ namespace EFCinema.Migrations
 
                     b.HasIndex("CountryId");
 
-                    b.ToTable("Films");
+                    b.ToTable("Film");
 
                     b.UseTptMappingStrategy();
                 });
@@ -251,7 +251,7 @@ namespace EFCinema.Migrations
                     b.Property<DateTime>("DateTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 1, 11, 3, 22, 49, 698, DateTimeKind.Local).AddTicks(5885));
+                        .HasDefaultValue(new DateTime(2023, 1, 14, 14, 17, 19, 706, DateTimeKind.Local).AddTicks(1262));
 
                     b.Property<int>("FilmId")
                         .HasColumnType("int");

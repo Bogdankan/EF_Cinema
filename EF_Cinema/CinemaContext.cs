@@ -11,8 +11,15 @@ namespace EF_Cinema
 {
     public class CinemaContext : DbContext
     {
-        public DbSet<Film> Films { get; set; } = null!;
-        public DbSet<Series> Series { get; set; } = null!;
+        public DbSet<Cinema> Cinema { get; set; } = null!;
+        public DbSet<CinemasNetwork> CinemasNetwork { get; set; } = null!;
+        public DbSet<Country> Countrie { get; set; } = null!;
+        public DbSet<Film> Film { get; set; } = null!;
+        public DbSet<Genre> Genre { get; set; } = null!;
+        public DbSet<Hall> Hall { get; set; } = null!;
+        public DbSet<Series> Serie { get; set; } = null!;
+        public DbSet<Session> Session { get; set; } = null!;
+        public DbSet<Ticket> Ticket { get; set; } = null!;
 
 
         public CinemaContext(DbContextOptions<CinemaContext> options) : base(options)
