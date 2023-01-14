@@ -19,148 +19,174 @@ string connectionString = config.GetConnectionString("DefaultConnection");
 
 var optionsBuilder = new DbContextOptionsBuilder<CinemaContext>();
 var options = optionsBuilder.UseSqlServer(connectionString).Options;
+#region Lab2
+//using (CinemaContext db = new CinemaContext(options))
+//{
+//CinemasNetwork cinemasNetwork1 = new CinemasNetwork { Name = "Multiplex" };
+//CinemasNetwork cinemasNetwork2 = new CinemasNetwork { Name = "Liniya Kino" };
+//CinemasNetwork cinemasNetwork3 = new CinemasNetwork { Name = "Outlet" };
 
-using (CinemaContext db = new CinemaContext(options))
-{
+//db.CinemasNetworks.AddRange(cinemasNetwork1, cinemasNetwork2, cinemasNetwork3);
+//db.SaveChanges();
 
-    //CinemasNetwork cinemasNetwork1 = new CinemasNetwork { Name = "Multiplex" };
-    //CinemasNetwork cinemasNetwork2 = new CinemasNetwork { Name = "Liniya Kino" };
-    //CinemasNetwork cinemasNetwork3 = new CinemasNetwork { Name = "Outlet" };
+//Cinema cinema1 = new Cinema { Sity = "Kyiv", CinemasNetworkId = cinemasNetwork1.Id };
+//Cinema cinema2 = new Cinema { Sity = "Lviv", CinemasNetworkId = cinemasNetwork3.Id };
+//Cinema cinema3 = new Cinema { Sity = "Kharkiv", CinemasNetworkId = cinemasNetwork2.Id };
+//Cinema cinema4 = new Cinema { Sity = "Odesa", CinemasNetworkId = cinemasNetwork2.Id };
 
-    //db.CinemasNetworks.AddRange(cinemasNetwork1, cinemasNetwork2, cinemasNetwork3);
-    //db.SaveChanges();
-
-    //Cinema cinema1 = new Cinema { Sity = "Kyiv", CinemasNetworkId = cinemasNetwork1.Id };
-    //Cinema cinema2 = new Cinema { Sity = "Lviv", CinemasNetworkId = cinemasNetwork3.Id };
-    //Cinema cinema3 = new Cinema { Sity = "Kharkiv", CinemasNetworkId = cinemasNetwork2.Id };
-    //Cinema cinema4 = new Cinema { Sity = "Odesa", CinemasNetworkId = cinemasNetwork2.Id };
-
-    //db.Cinemas.AddRange(cinema1, cinema2, cinema3, cinema4);
-    //db.SaveChanges();
-
-
-    //foreach (var cinema in db.Cinemas.ToList())
-    //{
-    //    Console.WriteLine($"{cinema.CinemasNetwork?.Name} is located in {cinema.Sity}");
-    //}
+//db.Cinemas.AddRange(cinema1, cinema2, cinema3, cinema4);
+//db.SaveChanges();
 
 
-    //TPH
+//foreach (var cinema in db.Cinemas.ToList())
+//{
+//    Console.WriteLine($"{cinema.CinemasNetwork?.Name} is located in {cinema.Sity}");
+//}
 
-    //Film film1 = new Film { Name = "Star Wars", Duration = DateTime.Now, CountryId = 1 };
-    //Film film2 = new Film { Name = "Pulp Fiction", Duration =DateTime.Now, CountryId = 1 };
 
-    //db.Films.Add(film1);
-    //db.Films.Add(film2);
+//TPH
 
-    //Series series1 = new Series { Name = "Breaking Bad", Duration = DateTime.Now, EpisodeCount = 62, SeasonsCount = 5, CountryId = 1 };
-    //Series series2 = new Series { Name = "Prison Break", Duration =DateTime.Now, EpisodeCount = 90, SeasonsCount = 5, CountryId = 1 };
+//Film film1 = new Film { Name = "Star Wars", Duration = DateTime.Now, CountryId = 1 };
+//Film film2 = new Film { Name = "Pulp Fiction", Duration =DateTime.Now, CountryId = 1 };
 
-    //db.Films.Add(series1);
-    //db.Films.Add(series2);
+//db.Films.Add(film1);
+//db.Films.Add(film2);
 
-    //db.SaveChanges();
+//Series series1 = new Series { Name = "Breaking Bad", Duration = DateTime.Now, EpisodeCount = 62, SeasonsCount = 5, CountryId = 1 };
+//Series series2 = new Series { Name = "Prison Break", Duration =DateTime.Now, EpisodeCount = 90, SeasonsCount = 5, CountryId = 1 };
 
-    //var films = db.Films.ToList();
-    //Console.WriteLine("All films:");
-    //foreach (var film in films)
-    //{
-    //    Console.WriteLine(film.Name);
-    //}
+//db.Films.Add(series1);
+//db.Films.Add(series2);
 
-    //var series = db.Series.ToList();
-    //Console.WriteLine("All series:");
-    //foreach (var serie in series)
-    //{
-    //    Console.WriteLine(serie.Name);
-    //}
+//db.SaveChanges();
 
-    //TPT
+//var films = db.Films.ToList();
+//Console.WriteLine("All films:");
+//foreach (var film in films)
+//{
+//    Console.WriteLine(film.Name);
+//}
 
-    //Film film1 = new Film { Name = "Star Wars", Duration = DateTime.Now, CountryId = 1 };
-    //Film film2 = new Film { Name = "Pulp Fiction", Duration = DateTime.Now, CountryId = 1 };
+//var series = db.Series.ToList();
+//Console.WriteLine("All series:");
+//foreach (var serie in series)
+//{
+//    Console.WriteLine(serie.Name);
+//}
 
-    //db.Films.Add(film1);
-    //db.Films.Add(film2);
+//TPT
 
-    //Series series1 = new Series { Name = "Breaking Bad", Duration = DateTime.Now, EpisodeCount = 62, SeasonsCount = 5, CountryId = 1 };
-    //Series series2 = new Series { Name = "Prison Break", Duration = DateTime.Now, EpisodeCount = 90, SeasonsCount = 5, CountryId = 1 };
+//Film film1 = new Film { Name = "Star Wars", Duration = DateTime.Now, CountryId = 1 };
+//Film film2 = new Film { Name = "Pulp Fiction", Duration = DateTime.Now, CountryId = 1 };
 
-    //db.Films.Add(series1);
-    //db.Films.Add(series2);
+//db.Films.Add(film1);
+//db.Films.Add(film2);
 
-    //db.SaveChanges();
+//Series series1 = new Series { Name = "Breaking Bad", Duration = DateTime.Now, EpisodeCount = 62, SeasonsCount = 5, CountryId = 1 };
+//Series series2 = new Series { Name = "Prison Break", Duration = DateTime.Now, EpisodeCount = 90, SeasonsCount = 5, CountryId = 1 };
 
-    //var films = db.Films.ToList();
-    //Console.WriteLine("All films:");
-    //foreach (var film in films)
-    //{
-    //    Console.WriteLine(film.Name);
-    //}
+//db.Films.Add(series1);
+//db.Films.Add(series2);
 
-    //var series = db.Series.ToList();
-    //Console.WriteLine("All series:");
-    //foreach (var serie in series)
-    //{
-    //    Console.WriteLine(serie.Name);
-    //}
-}
+//db.SaveChanges();
+
+//var films = db.Films.ToList();
+//Console.WriteLine("All films:");
+//foreach (var film in films)
+//{
+//    Console.WriteLine(film.Name);
+//}
+
+//var series = db.Series.ToList();
+//Console.WriteLine("All series:");
+//foreach (var serie in series)
+//{
+//    Console.WriteLine(serie.Name);
+//}
+//}
 
 
 //Create
+//using (CinemaContext db = new CinemaContext(options))
+//{
+//    var film1 = new Film { Name = "Star Wars", Duration = DateTime.Now, CountryId = 1 };
+//    var film2 = new Film { Name = "Pulp Fiction", Duration = DateTime.Now, CountryId = 1 };
+
+//    db.Films.Add(film1);
+//    db.Films.Add(film2);
+//    db.SaveChanges();
+
+//    var films = db.Films.ToList();
+
+//    Console.WriteLine("Added films:");
+//    foreach (var film in films)
+//    {
+//        Console.WriteLine(film.Name);
+//    }
+//}
+
+////Alter
+//using (CinemaContext db = new CinemaContext(options))
+//{
+//    var film = db.Films.FirstOrDefault(x => x.Name == "Pulp Fiction");
+
+//    Console.WriteLine($"Old duration: {film.Duration}");
+
+//    film.Duration = DateTime.MaxValue;
+//    db.SaveChanges();
+
+//    var films = db.Films.ToList();
+
+//    Console.WriteLine("Films after altering:");
+//    foreach (var f in films)
+//    {
+//        Console.WriteLine($"{f.Name} ||| {f.Duration}");
+//    }
+//}
+
+////Delete
+//using (CinemaContext db = new CinemaContext(options))
+//{
+//    var film = db.Films.FirstOrDefault();
+
+//    if (film != null)
+//    {
+//        db.Films.Remove(film);
+//        db.SaveChanges();
+//    }
+
+//    var films = db.Films.ToList();
+
+//    Console.WriteLine("Films after deleting:");
+//    foreach (var f in films)
+//    {
+//        Console.WriteLine($"{f.Name}");
+//    }
+//}
+
+//4 Lab
+//Thread
+#endregion
+
+object locker = new();
+
 using (CinemaContext db = new CinemaContext(options))
 {
-    var film1 = new Film { Name = "Star Wars", Duration = DateTime.Now, CountryId = 1 };
-    var film2 = new Film { Name = "Pulp Fiction", Duration = DateTime.Now, CountryId = 1 };
-
-    db.Films.Add(film1);
-    db.Films.Add(film2);
-    db.SaveChanges();
-
-    var films = db.Films.ToList();
-
-    Console.WriteLine("Added films:");
-    foreach (var film in films)
-    {
-        Console.WriteLine(film.Name);
-    }
+    //for (int i = 0; i < 5; i++)
+    //{
+    //    Thread myThread = new Thread(() => AddCinema(db, i));
+    //    myThread.Name = $"Поток {i}";
+    //    myThread.Start();
+    //}
+    
 }
 
-//Alter
-using (CinemaContext db = new CinemaContext(options))
+async void AddCinema(CinemaContext db, int i)
 {
-    var film = db.Films.FirstOrDefault(x => x.Name == "Pulp Fiction");
-
-    Console.WriteLine($"Old duration: {film.Duration}");
-
-    film.Duration = DateTime.MaxValue;
-    db.SaveChanges();
-
-    var films = db.Films.ToList();
-
-    Console.WriteLine("Films after altering:");
-    foreach (var f in films)
+    lock (locker)
     {
-        Console.WriteLine($"{f.Name} ||| {f.Duration}");
-    }
-}
-
-//Delete
-using (CinemaContext db = new CinemaContext(options))
-{
-    var film = db.Films.FirstOrDefault();
-
-    if (film != null)
-    {
-        db.Films.Remove(film);
-        db.SaveChanges();
-    }
-
-    var films = db.Films.ToList();
-
-    Console.WriteLine("Films after deleting:");
-    foreach (var f in films)
-    {
-        Console.WriteLine($"{f.Name}");
-    }
+        Cinema cinema = new Cinema { Id = i + 10, CinemasNetworkId = 1, Sity = ("City" + i.ToString()), Street = ("Street" + i.ToString()), House = ("House11" + i.ToString()) };
+        db.SaveChangesAsync();
+        
+    }        
 }
