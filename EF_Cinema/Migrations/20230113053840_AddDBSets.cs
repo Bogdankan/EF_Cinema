@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace EFCinema.Migrations
 {
     /// <inheritdoc />
-    public partial class AlreadyConfigurateDB : Migration
+    public partial class AddDBSets : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "CinemasNetworks",
+                name: "CinemasNetwork",
                 columns: table => new
                 {
                     cinemasnetworkid = table.Column<int>(name: "cinemasnetwork_id", type: "int", nullable: false)
@@ -22,23 +22,22 @@ namespace EFCinema.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CinemasNetworks", x => x.cinemasnetworkid);
+                    table.PrimaryKey("PK_CinemasNetwork", x => x.cinemasnetworkid);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Country",
+                name: "Countrie",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    FilmId = table.Column<int>(type: "int", nullable: false)
+                    FilmId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Country", x => x.Id);
-                    table.UniqueConstraint("AK_Country_FilmId", x => x.FilmId);
-                    table.UniqueConstraint("AK_Country_Name", x => x.Name);
+                    table.PrimaryKey("PK_Countrie", x => x.Id);
+                    table.UniqueConstraint("AK_Countrie_Name", x => x.Name);
                 });
 
             migrationBuilder.CreateTable(
@@ -56,7 +55,7 @@ namespace EFCinema.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Cinemas",
+                name: "Cinema",
                 columns: table => new
                 {
                     cinemaid = table.Column<int>(name: "cinema_id", type: "int", nullable: false)
@@ -69,11 +68,11 @@ namespace EFCinema.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Cinemas", x => x.cinemaid);
+                    table.PrimaryKey("PK_Cinema", x => x.cinemaid);
                     table.ForeignKey(
-                        name: "FK_Cinemas_CinemasNetworks_CinemasNetworkId",
+                        name: "FK_Cinema_CinemasNetwork_CinemasNetworkId",
                         column: x => x.CinemasNetworkId,
-                        principalTable: "CinemasNetworks",
+                        principalTable: "CinemasNetwork",
                         principalColumn: "cinemasnetwork_id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -94,10 +93,10 @@ namespace EFCinema.Migrations
                 {
                     table.PrimaryKey("PK_Film", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Film_Country_CountryId",
+                        name: "FK_Film_Countrie_CountryId",
                         column: x => x.CountryId,
-                        principalTable: "Country",
-                        principalColumn: "FilmId",
+                        principalTable: "Countrie",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -114,9 +113,9 @@ namespace EFCinema.Migrations
                 {
                     table.PrimaryKey("PK_Hall", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Hall_Cinemas_CinemaId",
+                        name: "FK_Hall_Cinema_CinemaId",
                         column: x => x.CinemaId,
-                        principalTable: "Cinemas",
+                        principalTable: "Cinema",
                         principalColumn: "cinema_id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -141,6 +140,25 @@ namespace EFCinema.Migrations
                         name: "FK_FilmGenre_Genre_GenreId",
                         column: x => x.GenreId,
                         principalTable: "Genre",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Series",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    EpisodeCount = table.Column<int>(type: "int", nullable: false),
+                    SeasonsCount = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Series", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Series_Film_Id",
+                        column: x => x.Id,
+                        principalTable: "Film",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -177,7 +195,7 @@ namespace EFCinema.Migrations
                     TicketId = table.Column<int>(type: "int", nullable: true),
                     FilmId = table.Column<int>(type: "int", nullable: false),
                     HallId = table.Column<int>(type: "int", nullable: false),
-                    DateTime = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2023, 1, 10, 22, 59, 46, 86, DateTimeKind.Local).AddTicks(2338))
+                    DateTime = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2023, 1, 13, 7, 38, 40, 756, DateTimeKind.Local).AddTicks(2623))
                 },
                 constraints: table =>
                 {
@@ -220,9 +238,19 @@ namespace EFCinema.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Countrie",
+                columns: new[] { "Id", "FilmId", "Name" },
+                values: new object[] { 1, null, "USA" });
+
+            migrationBuilder.InsertData(
+                table: "Genre",
+                columns: new[] { "Id", "FilmId", "Name" },
+                values: new object[] { 1, null, "Fantasy" });
+
             migrationBuilder.CreateIndex(
-                name: "IX_Cinemas_CinemasNetworkId",
-                table: "Cinemas",
+                name: "IX_Cinema_CinemasNetworkId",
+                table: "Cinema",
                 column: "CinemasNetworkId");
 
             migrationBuilder.CreateIndex(
@@ -272,6 +300,9 @@ namespace EFCinema.Migrations
                 name: "HallInfo");
 
             migrationBuilder.DropTable(
+                name: "Series");
+
+            migrationBuilder.DropTable(
                 name: "Ticket");
 
             migrationBuilder.DropTable(
@@ -287,13 +318,13 @@ namespace EFCinema.Migrations
                 name: "Hall");
 
             migrationBuilder.DropTable(
-                name: "Country");
+                name: "Countrie");
 
             migrationBuilder.DropTable(
-                name: "Cinemas");
+                name: "Cinema");
 
             migrationBuilder.DropTable(
-                name: "CinemasNetworks");
+                name: "CinemasNetwork");
         }
     }
 }

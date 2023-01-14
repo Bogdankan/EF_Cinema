@@ -13,6 +13,6 @@ namespace EF_Cinema.Models
         public int Id { get; set; }
         public string? Name { get; set; }
         public int CinemaId { get; set; }
-        public List<Cinema> Cinemas { get; set; }
+        public virtual List<Cinema> Cinemas { get; set; }
     }
 }

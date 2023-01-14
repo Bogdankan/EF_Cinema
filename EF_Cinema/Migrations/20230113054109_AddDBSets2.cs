@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace EFCinema.Migrations
 {
     /// <inheritdoc />
-    public partial class InitializedDB : Migration
+    public partial class AddDBSets2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,34 +16,24 @@ namespace EFCinema.Migrations
                 table: "Session",
                 type: "datetime2",
                 nullable: false,
-                defaultValue: new DateTime(2023, 1, 10, 23, 24, 51, 635, DateTimeKind.Local).AddTicks(3782),
+                defaultValue: new DateTime(2023, 1, 13, 7, 41, 9, 382, DateTimeKind.Local).AddTicks(9616),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime2",
-                oldDefaultValue: new DateTime(2023, 1, 10, 22, 59, 46, 86, DateTimeKind.Local).AddTicks(2338));
-
-            migrationBuilder.InsertData(
-                table: "Genre",
-                columns: new[] { "Id", "FilmId", "Name" },
-                values: new object[] { 1, null, "Fantasy" });
+                oldDefaultValue: new DateTime(2023, 1, 13, 7, 38, 40, 756, DateTimeKind.Local).AddTicks(2623));
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DeleteData(
-                table: "Genre",
-                keyColumn: "Id",
-                keyValue: 1);
-
             migrationBuilder.AlterColumn<DateTime>(
                 name: "DateTime",
                 table: "Session",
                 type: "datetime2",
                 nullable: false,
-                defaultValue: new DateTime(2023, 1, 10, 22, 59, 46, 86, DateTimeKind.Local).AddTicks(2338),
+                defaultValue: new DateTime(2023, 1, 13, 7, 38, 40, 756, DateTimeKind.Local).AddTicks(2623),
                 oldClrType: typeof(DateTime),
                 oldType: "datetime2",
-                oldDefaultValue: new DateTime(2023, 1, 10, 23, 24, 51, 635, DateTimeKind.Local).AddTicks(3782));
+                oldDefaultValue: new DateTime(2023, 1, 13, 7, 41, 9, 382, DateTimeKind.Local).AddTicks(9616));
         }
     }
 }

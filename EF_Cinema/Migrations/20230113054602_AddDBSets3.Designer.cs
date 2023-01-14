@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFCinema.Migrations
 {
     [DbContext(typeof(CinemaContext))]
-    [Migration("20230110205946_AlreadyConfigurateDB")]
-    partial class AlreadyConfigurateDB
+    [Migration("20230113054602_AddDBSets3")]
+    partial class AddDBSets3
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -59,7 +59,7 @@ namespace EFCinema.Migrations
 
                     b.HasIndex("CinemasNetworkId");
 
-                    b.ToTable("Cinemas");
+                    b.ToTable("Cinema");
                 });
 
             modelBuilder.Entity("EF_Cinema.Models.CinemasNetwork", b =>
@@ -81,7 +81,7 @@ namespace EFCinema.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CinemasNetworks");
+                    b.ToTable("CinemasNetwork");
                 });
 
             modelBuilder.Entity("EF_Cinema.Models.Country", b =>
@@ -93,7 +93,6 @@ namespace EFCinema.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("FilmId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -105,7 +104,14 @@ namespace EFCinema.Migrations
 
                     b.HasAlternateKey("Name");
 
-                    b.ToTable("Country");
+                    b.ToTable("Countrie");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "USA"
+                        });
                 });
 
             modelBuilder.Entity("EF_Cinema.Models.Film", b =>
@@ -138,6 +144,8 @@ namespace EFCinema.Migrations
                     b.HasIndex("CountryId");
 
                     b.ToTable("Film");
+
+                    b.UseTptMappingStrategy();
                 });
 
             modelBuilder.Entity("EF_Cinema.Models.FilmGenre", b =>
@@ -174,6 +182,13 @@ namespace EFCinema.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Genre");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Fantasy"
+                        });
                 });
 
             modelBuilder.Entity("EF_Cinema.Models.Hall", b =>
@@ -239,7 +254,7 @@ namespace EFCinema.Migrations
                     b.Property<DateTime>("DateTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 1, 10, 22, 59, 46, 86, DateTimeKind.Local).AddTicks(2338));
+                        .HasDefaultValue(new DateTime(2023, 1, 13, 7, 46, 2, 427, DateTimeKind.Local).AddTicks(2298));
 
                     b.Property<int>("FilmId")
                         .HasColumnType("int");
@@ -293,6 +308,19 @@ namespace EFCinema.Migrations
                         });
                 });
 
+            modelBuilder.Entity("EF_Cinema.Models.Series", b =>
+                {
+                    b.HasBaseType("EF_Cinema.Models.Film");
+
+                    b.Property<int>("EpisodeCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SeasonsCount")
+                        .HasColumnType("int");
+
+                    b.ToTable("Series");
+                });
+
             modelBuilder.Entity("EF_Cinema.Models.Cinema", b =>
                 {
                     b.HasOne("EF_Cinema.Models.CinemasNetwork", "CinemasNetwork")
@@ -309,7 +337,6 @@ namespace EFCinema.Migrations
                     b.HasOne("EF_Cinema.Models.Country", "Country")
                         .WithMany("Films")
                         .HasForeignKey("CountryId")
-                        .HasPrincipalKey("FilmId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -385,6 +412,15 @@ namespace EFCinema.Migrations
                         .IsRequired();
 
                     b.Navigation("Session");
+                });
+
+            modelBuilder.Entity("EF_Cinema.Models.Series", b =>
+                {
+                    b.HasOne("EF_Cinema.Models.Film", null)
+                        .WithOne()
+                        .HasForeignKey("EF_Cinema.Models.Series", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("EF_Cinema.Models.Cinema", b =>

@@ -13,7 +13,7 @@ namespace EF_Cinema.Models
         public int PlaceNumber { get; set; }
         public int RowNumber { get; set; }
         public int SessionId { get; set; }
-        public Session Session { get; set; }
+        public virtual Session Session { get; set; }
         public int Price { get; set; }
     }
 }

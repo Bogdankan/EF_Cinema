@@ -12,9 +12,9 @@ namespace EF_Cinema.Models
         [Column("cinema_id")]
         public int Id { get; set; }
         public int CinemasNetworkId { get; set; }
-        public CinemasNetwork CinemasNetwork { get; set; }
+        public virtual CinemasNetwork CinemasNetwork { get; set; }
         public int HallId { get; set; }
-        public List<Hall> Halls { get; set; }
+        public virtual List<Hall> Halls { get; set; }
         public string? Sity { get; set; }
         public string? Street { get; set; }
         public string? House { get; set; }

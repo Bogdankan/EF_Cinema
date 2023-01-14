@@ -11,16 +11,16 @@ namespace EF_Cinema
 {
     public class CinemaContext : DbContext
     {        
-        public DbSet<Cinema> Cinemas { get; set; } = null!;
-        public DbSet<CinemasNetwork> CinemasNetworks { get; set; } = null!;        
-        public DbSet<Country> Countries { get; set; } = null!;
-        public DbSet<Film> Films { get; set; } = null!;
-        public DbSet<Genre> Genres { get; set; } = null!;
-        public DbSet<Hall> Halls { get; set; } = null!;
-        public DbSet<Series> Series { get; set; } = null!;
-        public DbSet<Session> Sessions { get; set; } = null!;
-        public DbSet<Ticket> Tickets { get; set; } = null!;
-        
+        public DbSet<Cinema> Cinema { get; set; } = null!;
+        public DbSet<CinemasNetwork> CinemasNetwork { get; set; } = null!;        
+        public DbSet<Country> Countrie { get; set; } = null!;
+        public DbSet<Film> Film { get; set; } = null!;
+        public DbSet<Genre> Genre { get; set; } = null!;
+        public DbSet<Hall> Hall { get; set; } = null!;
+        public DbSet<Series> Serie { get; set; } = null!;
+        public DbSet<Session> Session { get; set; } = null!;
+        public DbSet<Ticket> Ticket { get; set; } = null!;
+        public IQueryable<Country> FindCountries(string substring) => FromExpression(() => FindCountries(substring));
         public CinemaContext(DbContextOptions<CinemaContext> options) : base(options)
         {
             //Database.EnsureDeleted();
@@ -39,6 +39,7 @@ namespace EF_Cinema
             //modelBuilder.Entity<Ticket>();
             //modelBuilder.Entity<FilmGenre>();
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            modelBuilder.HasDbFunction (() => FindCountries(default));
         }
     }
 }

@@ -14,6 +14,6 @@ namespace EF_Cinema.Models
         public int PlacesCount { get; set; }
         public int RowsCount { get; set; }
         public int HallId { get; set; }
-        public Hall Hall { get; set; }
+        public virtual Hall Hall { get; set; }
     }
 }

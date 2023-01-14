@@ -10,8 +10,8 @@ namespace EF_Cinema.Models
     {
         public int Id { get; set; }
         public int? FilmId { get; set; }
-        public List<Film> Films { get; set; }
-        public List<FilmGenre> FilmGenres { get; set; }
+        public virtual List<Film> Films { get; set; }
+        public virtual List<FilmGenre> FilmGenres { get; set; }
         public string? Name { get; set; }
     }
 }

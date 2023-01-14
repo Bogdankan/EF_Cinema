@@ -17,7 +17,7 @@ namespace EFCinema.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.1")
+                .HasAnnotation("ProductVersion", "7.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -89,9 +89,6 @@ namespace EFCinema.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("FilmId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -101,7 +98,7 @@ namespace EFCinema.Migrations
 
                     b.HasAlternateKey("Name");
 
-                    b.ToTable("Country");
+                    b.ToTable("Countrie");
 
                     b.HasData(
                         new
@@ -140,7 +137,7 @@ namespace EFCinema.Migrations
 
                     b.HasIndex("CountryId");
 
-                    b.ToTable("Films");
+                    b.ToTable("Film");
 
                     b.UseTptMappingStrategy();
                 });
@@ -251,7 +248,7 @@ namespace EFCinema.Migrations
                     b.Property<DateTime>("DateTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 1, 11, 3, 22, 49, 698, DateTimeKind.Local).AddTicks(5885));
+                        .HasDefaultValue(new DateTime(2023, 1, 14, 4, 29, 22, 372, DateTimeKind.Local).AddTicks(7144));
 
                     b.Property<int>("FilmId")
                         .HasColumnType("int");
