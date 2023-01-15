@@ -4,6 +4,7 @@ using EF_Cinema;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFCinema.Migrations
 {
     [DbContext(typeof(CinemaContext))]
-    partial class CinemaContextModelSnapshot : ModelSnapshot
+    [Migration("20230115125628_NoCountryId1")]
+    partial class NoCountryId1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -117,6 +120,7 @@ namespace EFCinema.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("CountryId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Duration")
@@ -246,7 +250,7 @@ namespace EFCinema.Migrations
                     b.Property<DateTime>("DateTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 1, 15, 14, 59, 12, 195, DateTimeKind.Local).AddTicks(6079));
+                        .HasDefaultValue(new DateTime(2023, 1, 15, 14, 56, 28, 435, DateTimeKind.Local).AddTicks(2899));
 
                     b.Property<int?>("FilmId")
                         .IsRequired()
@@ -316,7 +320,9 @@ namespace EFCinema.Migrations
                 {
                     b.HasOne("EF_Cinema.Models.Country", "Country")
                         .WithMany("Films")
-                        .HasForeignKey("CountryId");
+                        .HasForeignKey("CountryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Country");
                 });

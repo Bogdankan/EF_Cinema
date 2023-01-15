@@ -14,7 +14,7 @@ namespace EF_Cinema.Configurations
         public void Configure(EntityTypeBuilder<Film> builder)
         {
             builder.Property(f => f.Name).IsRequired().HasMaxLength(50);
-            builder.HasOne(f => f.Country).WithMany(c => c.Films).HasForeignKey(f => f.CountryId);
+            //builder.HasOne(f => f.Country).WithMany(c => c.Films).HasForeignKey(f => f.CountryId);
             builder.HasMany(f => f.Sessions).WithOne(c => c.Film).HasForeignKey(f => f.FilmId);
             builder.HasMany(x => x.Genres).WithMany(x => x.Films).UsingEntity<FilmGenre>(
                 j => j.HasOne(x => x.Genre).WithMany(x => x.FilmGenres).HasForeignKey(x => x.GenreId),
