@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
 using Microsoft.Extensions.Configuration;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Net.Sockets;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 
@@ -357,6 +359,7 @@ using (CinemaContext db = new CinemaContext(options))
 
 using (CinemaContext db = new CinemaContext(options))
 {
+
     //var film = db.Film.FirstOrDefault();
 
     //if (film != null)
@@ -365,8 +368,10 @@ using (CinemaContext db = new CinemaContext(options))
     //    db.SaveChanges();
     //}
 
-    //var cinema = new Cinema { CinemasNetworkId = 1, Sity = "Kyiv", Street = "Street1", House = "12B" };
+    //var cinemaNetwork = new CinemasNetwork { Name = "Multiplex" };
+    //var cinema = new Cinema { CinemasNetwork = cinemaNetwork, Sity = "Kyiv", Street = "Street1", House = "12B" };
 
+    //db.CinemasNetwork.Add(cinemaNetwork);
     //db.Cinema.Add(cinema);
     //db.SaveChanges();
 
@@ -428,20 +433,39 @@ using (CinemaContext db = new CinemaContext(options))
     //    db.SaveChanges();
     //}
 
+
+    //var query1 = db.Session.Join(
+    //                 db.Ticket,
+    //                 session => session.Id,
+    //                 ticket => ticket.SessionId,
+    //                 (session, ticket) => new { Session = session.Id, Film = session.FilmId, Ticket = ticket.Id });
+    //                 //.GroupBy(p => new { p.Session, p.Film })
+    //                 .Select(p => new { p.Key, Count = p.Count() }).ToList();
+    //var query2 = query1.GroupBy(p => p.Key.Film).Select(p => p.Sum(e => e.Key)).ToList();
+
     //Query
-    var query1 = db.Session.Join(
-                     db.Ticket,
-                     session => session.Id,
-                     ticket => ticket.SessionId,
-                     (session, ticket) => new { Session = session.Id, Film = session.FilmId, Ticket = ticket.Id })
-                     .GroupBy(p => new { p.Session, p.Film })
-                     .Select(p => new { p.Key, Count = p.Count() }).ToList();
-    var query2 = query1.GroupBy(p => p.Key.Film).Select(p => p.Sum(e => e.Key.Ticket.)).ToList();
-    var query3 = query1.Select(p => p).Where(p => query2.Contains(p.Key.Session)).ToList();
+
+    var query1 = db.Session // З'єднує сеанси з квитками та фільтрує їх по даті
+        .Join(
+        db.Ticket,
+        session => session.Id,
+        ticket => ticket.SessionId,
+        (session, ticket) => new { Session = session.Id, Film = session.FilmId, Ticket = ticket.Price, Datetime = session.DateTime })
+        /*.Where(t => t.Datetime!.DayOfWeek == DayOfWeek.Saturday || t.Datetime!.DayOfWeek == DayOfWeek.Sunday)*/; // Виникає виключення
+
+    ;
+
+    var query2 = query1 // Створено проекцію фільм - касовий збір та сортування по спаданню
+        .Select(g => new { g.Film, Sum = db.Ticket.Where(t => t.SessionId == g.Session).Sum(t => t.Price) })
+        //.GroupBy(g => g.Film)
+        //.Select(g => new { g.Key, Sum = g.Sum(g => g.Sum) })
+        .OrderByDescending(g => g.Sum);
+ 
 
     foreach (var item in query2)
     {
-        Console.WriteLine(item);
+        //Console.WriteLine($"{item.Film} {item.Session} {item.Datetime} {item.Ticket}");
+        Console.WriteLine($"Film_ID:{item.Film}, Total Sum for 1 session: {item.Sum}");
     }
 }
 
@@ -449,4 +473,6 @@ using (CinemaContext db = new CinemaContext(options))
 //DateTime date = new DateTime(2023, 12, 7, 12, 0, 0);
 
 //Console.WriteLine(date.DayOfWeek);
+//Sum(t => t.Ticket)
+//var query3 = query1.Select(p => p).Where(p => query2.Contains(p.Key.Session)).ToList();
 
