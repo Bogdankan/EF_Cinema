@@ -365,73 +365,86 @@ using (CinemaContext db = new CinemaContext(options))
     //    db.SaveChanges();
     //}
 
-    var cinema = new Cinema { CinemasNetworkId = 1, Sity = "Kyiv", Street = "Street1", House = "12B" };
+    //var cinema = new Cinema { CinemasNetworkId = 1, Sity = "Kyiv", Street = "Street1", House = "12B" };
 
-    db.Cinema.Add(cinema);
-    db.SaveChanges();
+    //db.Cinema.Add(cinema);
+    //db.SaveChanges();
 
-    var cinemas = db.Cinema.ToList();
+    //var cinemas = db.Cinema.ToList();
 
-    //Console.WriteLine("Added cinemas:");
-    //foreach (var film in cinemas)
+    ////Console.WriteLine("Added cinemas:");
+    ////foreach (var film in cinemas)
+    ////{
+    ////    Console.WriteLine(film.Sity);
+    ////}
+
+    //var cinemaid = db.Cinema!.ToList().FirstOrDefault().Id;
+
+    //for (int i = 0; i < 10; i++)
     //{
-    //    Console.WriteLine(film.Sity);
+    //    var hall = new Hall { CinemaId = cinemaid };
+    //    db.Hall.Add(hall);
+    //    db.SaveChanges();
     //}
 
-    var cinemaid = db.Cinema!.ToList().FirstOrDefault().Id;
+    //var genreid = db.Cinema!.ToList().FirstOrDefault().Id;
 
-    for (int i = 0; i < 10; i++)
-    {
-        var hall = new Hall { CinemaId = cinemaid };
-        db.Hall.Add(hall);
-        db.SaveChanges();
-    }
+    //for (int i = 0; i < 5; i++)
+    //{
+    //    var film = new Film { Name = "Film" + (i + 1).ToString(), GenreId = genreid, Duration = DateTime.Now };
+    //    db.Film.Add(film);
+    //    db.SaveChanges();
+    //}
 
-    var genreid = db.Cinema!.ToList().FirstOrDefault().Id;
+    //Random random = new Random();
 
-    for (int i = 0; i < 5; i++)
-    {
-        var film = new Film { Name = "Film" + (i + 1).ToString(), GenreId = genreid, Duration = DateTime.Now };
-        db.Film.Add(film);
-        db.SaveChanges();
-    }
+    //for (int i = 2053; i < 2058; i++) //FilmId from 2053 to 2058
+    //{
+    //    for (int j = 0; j < 4; j++)
+    //    {
+    //        var hallid = random.Next(1002, 1011);
+    //        var day = random.Next(1, 31);
+    //        var session = new Session { FilmId = i, HallId = hallid, DateTime = new DateTime(2022, 12, day, 1 + j, 0, 0) };
+    //        db.Session.Add(session);
+    //        db.SaveChanges();
+    //    }
+    //}
 
-    Random random = new Random();
+    //var sessions = db.Session.ToList();
 
-    for (int i = 2053; i < 2058; i++) //FilmId from 2053 to 2058
-    {
-        for (int j = 0; j < 4; j++)
-        {
-            var hallid = random.Next(1002, 1011);
-            var day = random.Next(1, 31);
-            var session = new Session { FilmId = i, HallId = hallid, DateTime = new DateTime(2022, 12, day, 1 + j, 0, 0) };
-            db.Session.Add(session);
-            db.SaveChanges();
-        }
-    }
+    //Console.WriteLine("Added sessions:");
+    //foreach (var session in sessions)
+    //{
+    //    Console.WriteLine(session.DateTime.DayOfWeek);
+    //}
 
-    var sessions = db.Session.ToList();
-
-    Console.WriteLine("Added sessions:");
-    foreach (var session in sessions)
-    {
-        Console.WriteLine(session.DateTime.DayOfWeek);
-    }
-
-    for (int i = 1; i < 20; i++)
-    {
-        var place = random.Next(1, 31);
-        var row = random.Next(1, 12);
-        var price = random.Next(501, 1999);
-        var ticket = new Ticket { HallNumber = 1, PlaceNumber = place, RowNumber = row, SessionId = i, Price = price };
-        db.Ticket.Add(ticket);
-        db.SaveChanges();
-    }
+    //for (int i = 1; i < 20; i++)
+    //{
+    //    var place = random.Next(1, 31);
+    //    var row = random.Next(1, 12);
+    //    var price = random.Next(501, 1999);
+    //    var ticket = new Ticket { HallNumber = 1, PlaceNumber = place, RowNumber = row, SessionId = i, Price = price };
+    //    db.Ticket.Add(ticket);
+    //    db.SaveChanges();
+    //}
 
     //Query
-    //var films = db.Film
-    //    .Select();
+    var query1 = db.Session.Join(
+                     db.Ticket,
+                     session => session.Id,
+                     ticket => ticket.SessionId,
+                     (session, ticket) => new { Session = session.Id, Film = session.FilmId, Ticket = ticket.Id })
+                     .GroupBy(p => new { p.Session, p.Film })
+                     .Select(p => new { p.Key, Count = p.Count() }).ToList();
+    var query2 = query1.GroupBy(p => p.Key.Film).Select(p => p.Sum(e => e.Key.Ticket.)).ToList();
+    var query3 = query1.Select(p => p).Where(p => query2.Contains(p.Key.Session)).ToList();
+
+    foreach (var item in query2)
+    {
+        Console.WriteLine(item);
+    }
 }
+
 
 //DateTime date = new DateTime(2023, 12, 7, 12, 0, 0);
 
