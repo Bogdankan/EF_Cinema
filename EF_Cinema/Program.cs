@@ -445,27 +445,43 @@ using (CinemaContext db = new CinemaContext(options))
 
     //Query
 
-    var query1 = db.Session // З'єднує сеанси з квитками та фільтрує їх по даті
-        .Join(
-        db.Ticket,
-        session => session.Id,
-        ticket => ticket.SessionId,
-        (session, ticket) => new { Session = session.Id, Film = session.FilmId, Ticket = ticket.Price, Datetime = session.DateTime })
-        /*.Where(t => t.Datetime!.DayOfWeek == DayOfWeek.Saturday || t.Datetime!.DayOfWeek == DayOfWeek.Sunday)*/; // Виникає виключення
 
-    ;
+    //var query1 = db.Session // З'єднує сеанси з квитками та фільтрує їх по даті
+    //   .Join(
+    //   db.Ticket,
+    //   session => session.Id,
+    //   ticket => ticket.SessionId,
+    //   (session, ticket) => new { Session = session.Id, Film = session.FilmId, Ticket = ticket.Price, Datetime = session.DateTime })
+    //   /*.Where(t => t.Datetime!.DayOfWeek == DayOfWeek.Saturday || t.Datetime!.DayOfWeek == DayOfWeek.Sunday)*/; // Виникає виключення
+
+    //;
+
+    //var query2 = query1 // Створено проекцію фільм - касовий збір та сортування по спаданню
+    //    .Select(g => new { g.Film, Sum = db.Ticket.Where(t => t.SessionId == g.Session).Sum(t => t.Price) })
+    //    //.GroupBy(g => g.Film)
+    //    //.Select(g => new { g.Key, Sum = g.Sum(g => g.Sum) })
+    //    .OrderByDescending(g => g.Sum);
+
+    var query1 = db.Session // З'єднує сеанси з квитками та фільтрує їх по даті
+       .Join(
+       db.Ticket,
+       session => session.Id,
+       ticket => ticket.SessionId,
+       (session, ticket) => new { /*Session = session.Id,*/ Film = session.FilmId, TicketPrice = ticket.Price, Datetime = session.DateTime });
+    /*.Where(t => t.Datetime!.DayOfWeek == DayOfWeek.Saturday || t.Datetime!.DayOfWeek == DayOfWeek.Sunday)*/ // Виникає виключення
+    //.Where(t => t.Datetime == db.Session.Select(s => s.DateTime).Where(t => t.DayOfWeek == DayOfWeek.Saturday || t.DayOfWeek == DayOfWeek.Sunday).Take(1).ToList().FirstOrDefault());
 
     var query2 = query1 // Створено проекцію фільм - касовий збір та сортування по спаданню
-        .Select(g => new { g.Film, Sum = db.Ticket.Where(t => t.SessionId == g.Session).Sum(t => t.Price) })
-        //.GroupBy(g => g.Film)
-        //.Select(g => new { g.Key, Sum = g.Sum(g => g.Sum) })
-        .OrderByDescending(g => g.Sum);
- 
+        .Select(g => new { g.Film, g.TicketPrice })
+        .GroupBy(g => g.Film)
+        .Select(g => new { g.Key, Sum = g.Sum(g => g.TicketPrice)})        
+        .OrderByDescending(g => g.Sum); 
+
 
     foreach (var item in query2)
     {
-        //Console.WriteLine($"{item.Film} {item.Session} {item.Datetime} {item.Ticket}");
-        Console.WriteLine($"Film_ID:{item.Film}, Total Sum for 1 session: {item.Sum}");
+        Console.WriteLine($"Film_ID: {item.Key}, Total Sum: {item.Sum}");
+       // Console.WriteLine($"Film_ID:{item.Film}, Total Sum for 1 session: {item.Sum}");
     }
 }
 
