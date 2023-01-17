@@ -17,7 +17,7 @@ namespace EF_Cinema
         public DbSet<Film> Film { get; set; } = null!;
         public DbSet<Genre> Genre { get; set; } = null!;
         public DbSet<Hall> Hall { get; set; } = null!;
-        public DbSet<Series> Serie { get; set; } = null!;
+        //public DbSet<Series> Serie { get; set; } = null!;
         public DbSet<Session> Session { get; set; } = null!;
         public DbSet<Ticket> Ticket { get; set; } = null!;
 

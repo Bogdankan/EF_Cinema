@@ -5,12 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EF_Cinema.Models
-{
-    [Table("Series")]
-    public class Series : Film
-    {
-        public int EpisodeCount { get; set; }
-        public int SeasonsCount { get; set; }
-    }
-}
+//namespace EF_Cinema.Models
+//{
+//    [Table("Series")]
+//    public class Series : Film
+//    {
+//        public int EpisodeCount { get; set; }
+//        public int SeasonsCount { get; set; }
+//    }
+//}
